@@ -29,15 +29,11 @@ dependencyManagement {
 dependencies {
     // 5. Messaging & Event Driven
     compileOnly("org.springframework.kafka:spring-kafka")
-
+    
     // 8. Tooling & Lombok
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
-
-    // 9. Testing
-    testImplementation(platform("org.junit:junit-bom:6.0.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    
 }
 
 tasks.test {
