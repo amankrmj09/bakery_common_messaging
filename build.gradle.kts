@@ -1,0 +1,83 @@
+plugins {
+    id("java")
+    id("java-library")
+    id("maven-publish")
+    id("io.spring.dependency-management") version "1.1.7"
+}
+
+description = "Shared DTOs and Common Utilities for Bakery Microservices"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+extra["springCloudVersion"] = "2025.0.3"
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.15")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
+}
+
+dependencies {
+    // 5. Messaging & Event Driven
+    compileOnly("org.springframework.kafka:spring-kafka")
+
+    // 8. Tooling & Lombok
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
+
+    // 9. Testing
+    testImplementation(platform("org.junit:junit-bom:6.0.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+            pom {
+                name.set("Bakery Common Messaging")
+                description.set("Shared DTOs and Common Utilities for Bakery Microservices")
+                url.set("https://github.com/amankrmj09/bakery-common-messaging")
+                licenses {
+                    license {
+                        name.set("The MIT License")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("amankrmj09")
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/amankrmj09/bakery-common-messaging")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+
+tasks.withType<GenerateModuleMetadata> {
+    suppressedValidationErrors.add("dependencies-without-versions")
+}
