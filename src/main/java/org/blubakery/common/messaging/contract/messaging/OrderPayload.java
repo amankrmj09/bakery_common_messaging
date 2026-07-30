@@ -23,4 +23,5 @@ public class OrderPayload {
     private String deliveryAddress;
     private String cancellationReason;
     private LocalDateTime timestamp;
+    private Boolean cancelledByAdmin;
 }
