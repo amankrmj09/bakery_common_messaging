@@ -12,4 +12,5 @@ public final class KafkaTopics {
     public static final String USER_TOPIC = "user-topic";
     public static final String PRODUCT_TOPIC = "product-topic";
     public static final String PAYMENT_REQUESTS_TOPIC = "payment-requests-topic";
+    public static final String SETTINGS_TOPIC = "settings-topic";
 }
