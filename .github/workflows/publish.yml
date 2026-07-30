@@ -27,11 +27,36 @@ jobs:
           
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+
+      - name: Resolve publish coordinates
+        id: coordinates
+        run: |
+          GROUP_ID=$(grep '^group=' gradle.properties | cut -d'=' -f2- | tr -d '[:space:]')
+          VERSION=$(grep '^version=' gradle.properties | cut -d'=' -f2- | tr -d '[:space:]')
+          echo "group_path=${GROUP_ID//./\/}" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Check if package version already exists
+        id: package_exists
+        run: |
+          PACKAGE_URL="https://maven.pkg.github.com/${{ github.repository }}/${{ steps.coordinates.outputs.group_path }}/bakery_common_messaging/${{ steps.coordinates.outputs.version }}/bakery_common_messaging-${{ steps.coordinates.outputs.version }}.pom"
+          if curl --silent --show-error --fail --head -u "${GITHUB_ACTOR}:${GITHUB_TOKEN}" "$PACKAGE_URL" > /dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Package version already exists at $PACKAGE_URL"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Package version does not exist yet; publishing will continue."
+          fi
           
       - name: Publish to GitHub Packages
+        if: steps.package_exists.outputs.exists != 'true'
         run: |
           chmod +x gradlew
           ./gradlew publish --no-daemon
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Skip publish because version already exists
+        if: steps.package_exists.outputs.exists == 'true'
+        run: echo "Skipping publish because this version already exists in GitHub Packages."
