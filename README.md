@@ -86,5 +86,5 @@ In the Blu's Bakery microservices architecture, services communicate asynchronou
 
 ## 🔗 Related Links
 
-- [Parent Repository](https://github.com/amankrmj09/Blu_s_Bakery)
+*For overall architecture, contribution guidelines, and security policies, please refer to the main [Blu's Bakery](https://github.com/amankrmj09/Blu_s_Bakery) repository.*
 
