@@ -1,4 +1,4 @@
-package org.blubakery.common.messaging.contract.messaging;
+package org.blubakery.common.messaging.settings;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StockOperationRequestPayload {
-    private Integer quantity;
-
+public class SettingsPayload {
+    private String adminNotificationEmail;
 }

@@ -1,10 +1,11 @@
-package org.blubakery.common.messaging.contract.messaging;
+package org.blubakery.common.messaging.review;
 
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Data
 @Builder

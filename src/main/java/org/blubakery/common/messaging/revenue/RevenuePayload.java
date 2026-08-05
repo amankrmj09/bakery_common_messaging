@@ -1,4 +1,4 @@
-package org.blubakery.common.messaging.contract.messaging;
+package org.blubakery.common.messaging.revenue;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
